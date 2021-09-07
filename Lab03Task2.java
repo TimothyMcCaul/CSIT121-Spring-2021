@@ -225,6 +225,17 @@ class Enrollment {
     }
     
     public void enrolElective(Subject subject) {
+        if(!isEnrolled(subject)) {
+            electives.add(subject);
+            totalCredits += subject.getCredit();
+        }
+    }
+    
+    public int getTotalCredit() {
+        return totalCredits;
+    }
+    
+    public boolean isEnrolled(Subject subject) {
         boolean alreadyEnrolled = false;
         
         // Check if the elective is already enrolled in
@@ -243,19 +254,7 @@ class Enrollment {
         if(major.isIncluded(subject))
             alreadyEnrolled = true;
         
-        // Finally if we are sure they aren't enrolled in it, we can add it to their electives
-        if(!alreadyEnrolled) {
-            electives.add(subject);
-            totalCredits += subject.getCredit();
-        }
-    }
-    
-    public int getTotalCredit() {
-        return totalCredits;
-    }
-    
-    public boolean isEnrolled(Subject subject) {
-        return cores.contains(subject) || electives.contains(subject);
+        return alreadyEnrolled;
     }
     
     public String toString() {
